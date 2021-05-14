@@ -1,0 +1,77 @@
+This our second activity in second year college, Web technologies, 2021. 
+
+ACTIVITY 2
+
+--------------------------App.js---------
+import React, { Component } from 'react'
+import Feedback from './act2/Feedback';
+
+class App extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+      comments: ["This is default comment 1",
+      "This is default comment 2",
+      "This is default comment 3"]}
+  }
+  addCommentHandler = (name) => {
+      return this.setState({comments: [...this.state.comments, name]})}
+     
+  render() {
+    return (
+      <div>
+        <Feedback handleClick={this.addCommentHandler} feedbacks={this.state.comments}/>
+      </div>
+    )
+  }
+}
+export default App;
+
+
+-------------------------------Feedback.js-------
+import React, { Component } from 'react'
+
+class Feedback extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {feedback: []}}
+
+        static getDerivedStateFromProps(props, state){
+            return {feedback: props.feedbacks}}
+
+        callClickEvent = () => {
+            let response = document.getElementById('feedback').value;
+            return this.props.handleClick(response);
+        }
+
+    render() {
+        let responses = this.state.feedback;
+
+        return (
+            <div className="container">
+                <hr className="mt-5 text-black"/>
+                <h5><i className="far fa-comments">Post your comment</i></h5>
+            <form>
+                <div class="form-group mt-4">
+                    <textarea input="text" placeholder="We value your feedback" id='feedback' 
+                     class="form-control"  rows="3"/><br />
+                </div>
+            </form>            
+                <div className="col-lg-12 text-right">
+                    <button className=" btn btn-primary" onClick={this.callClickEvent}>
+                       Submit
+                    </button>
+                </div>
+            <h5 className="mt-4">Recent Comments</h5>
+                 <hr />
+                     {responses.map((response,index) => 
+                             <div className="card mt-3">
+                                  <div className="card-body" key={index}>
+                                     <h5>From: Anonymous</h5>
+                                     <p className="mb-3">{response}</p>
+                                   </div> 
+                             </div>)}
+                             </div>)}}
+export default Feedback;
